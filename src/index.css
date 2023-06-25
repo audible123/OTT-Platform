@@ -3,25 +3,29 @@
 @tailwind utilities;
 
 
-.banner {
+
+
+/* .banner {
     background-image: url("https://image.tmdb.org/t/p/original//hVMoqvXs5j9ffun56tZ5YhliSD9.jpg");
     background-position: center center;
     background-size: cover;
     color: #fff;
     height: 448px;
     object-fit: contain;
-  }
-
-  .banner--fadeBottom {
-    background-image: linear-gradient(
-      180deg,
-      transparent,
-      rgba(37, 37, 37, 0.61),
-      #111
-    );
-    height: 10rem;
-  }
+  } */
 
   body{
     background-color: #111;
+  }
+
+  .main {
+    background: url("https://assets.nflxext.com/ffe/siteui/vlv3/11c803d4-06f3-467e-91f7-0560ce15a396/5ac22c62-f87e-45e3-8746-418d647185c9/VN-en-20210517-popsignuptwoweeks-perspective_alpha_website_small.jpg");
+    background-size: cover;
+    min-height: 100vh;
+  }
+
+  .back{
+    background: rgba(37, 37, 37, 0.91);
+    width: 400px;
+    margin: auto;
   }

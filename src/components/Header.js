@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react';
+import requests from '../utils/Requests';
 
 function Header() {
+  function changeImage(category){
+    document.getElementById('div-bg').style.backgroundImage = 'url("https://source.unsplash.com/320x240/?' + category + '")';
+  }
+
+  const [movies, setMovies] = useState([]);
+
+  const movie = movies[Math.floor(Math.random() * movies.length)];
 
     function truncateString(str,index){
-        if(str.length > index)
+        if(str?.length > index)
         {
             return str.slice(0,index) + "...."
         }
@@ -12,30 +21,47 @@ function Header() {
         }
     }
 
-    const str = "Angsty and awkward fifteen year old Ginny Miller often feels more mature than her thirty year old mother thirresistible and dynamic Georgia Miller rhdlnksvjhj sdbjkvbjjhbhiohobjvbjkhiovhiobvbjk cvbhvhhfohiofhiohiofhiofioio "
+    async function getmoviedata(){
+      const data = await fetch(requests.requestTrending);
+      const json = await data.json();
+      setMovies(json?.results);
+      console.log(movies);
+    }
+  
+    useEffect(()=>{
+        getmoviedata();
+    },[]);
 
   return (
-    <header className="banner">
-      <div 
-      className="h-48 ml-8 p-36 max-sm:ml-0">
-        <h1 
-        className="text-[3rem] font-extrabold pb-1 max-sm:text-[1.4rem]">Ginny &amp; Georgia</h1>
-        <div 
-        className="text-[16px] h-20 leading-5 max-w-sm pt-4 max-sm:grid max-sm:grid-flow-row">
-          <button 
-          className="m-2 border-none rounded-sm bg-white cursor-pointer font-bold text-black outline-none py-2 px-8">
-            Play</button>
-          <button 
-          className="m-2 border-none rounded-sm bg-white cursor-pointer font-bold text-black outline-none py-2 px-8">
-            My List</button>
+    <>
+    <div className='w-full h-[600px] text-white'>
+    <div className='w-full h-full'>
+      <div className='absolute w-full h-[600px] bg-gradient-to-r from-black'></div>
+      <img
+        className='w-full h-full object-cover hover:'
+        src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+        alt={movie?.title}
+      />
+      <div className='absolute w-full top-[20%] p-4 md:p-8'>
+        <h1 className='text-3xl md:text-5xl font-bold'>{movie?.title}</h1>
+        <div className='my-4'>
+          <button className='border bg-gray-300 text-black border-gray-300 py-2 px-5'>
+            Play
+          </button>
+          <button className='border text-white border-gray-300 py-2 px-5 ml-4'>
+            Watch Later
+          </button>
         </div>
-        <h1 className="text-base h-20 leading-5 max-w-xs pt-4 w-80  max-sm:mt-10 max-sm: max-sm:max-w-lg max-sm:h-32">
-          {truncateString(str,80)}
-        </h1>
+        <p className='text-gray-400 text-sm'>
+          Released: {movie?.release_date}
+        </p>
+        <p className='w-full md:max-w-[70%] lg:max-w-[50%] xl:max-w-[35%] text-gray-200'>
+          {truncateString(movie?.overview, 150)}
+        </p>
       </div>
-      <div className="banner--fadeBottom"></div>
-    </header>
-
+    </div>
+  </div>
+      </>
 
   )
 }
